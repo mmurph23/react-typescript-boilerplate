@@ -1,16 +1,8 @@
 import * as React from 'react';
 import {Jumbotron } from 'reactstrap';
 import { connect } from 'react-redux';
-import { ApplicationState } from '../../redux/reducers';
 
-interface Props {
-    name: string,
-    hometown: string,
-    age?: number | null,
-    favorite: string
-}
-
-const FunFacts = ({ name, hometown, age, favorite }: Props) => (
+const FunFacts = ({ name, hometown, age, favorite } = props) => (
   <React.Fragment>
       <Jumbotron>
           <h2>Fun facts about {name}!</h2>
@@ -20,7 +12,7 @@ const FunFacts = ({ name, hometown, age, favorite }: Props) => (
   </React.Fragment>
 )
 
-const mapStateToProps = (state: ApplicationState) => ({
+const mapStateToProps = (state) => ({
     name: state.user.name,
     hometown: state.user.hometown,
     age: state.user.age,

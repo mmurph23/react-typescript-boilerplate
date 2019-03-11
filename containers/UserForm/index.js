@@ -3,29 +3,10 @@ import {Jumbotron, Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import { updateUser } from 'src/redux/reducers/user';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { History } from 'history';
 import logo from '../../logo.svg';
-// import { History } from 'history';
 
-interface ReduxProps {
-    updateUser?: any,
-}
-
-interface OwnProps {
-    history: History
-}
-
-type Props = ReduxProps & OwnProps
-
-interface State {
-    name: string,
-    hometown: string,
-    age?: number | null,
-    favorite: string
-}
-
-class UserForm extends React.Component<Props, State> {
-    constructor(props: Props){
+class UserForm extends React.Component {
+    constructor(props){
         super(props)
         this.state = {
             name: '',
@@ -35,16 +16,17 @@ class UserForm extends React.Component<Props, State> {
         }
     }
 
-    private onSubmit = () => {
+    onSubmit = () => {
         const payload = {...this.state};
         this.props.updateUser(payload);
         this.props.history.push('/FunFacts')
     }
 
-    private handleChange = <T extends keyof State>(event: React.FormEvent<HTMLInputElement>): void => {
+    handleChange = event => {
         const { id , value } = event.currentTarget;
-        const newState = {[id]: value}
-        this.setState(newState as { [P in T]: State[P]; })
+        this.setState({
+            [id] : value
+        });
     }
 
     render() {
@@ -96,7 +78,7 @@ class UserForm extends React.Component<Props, State> {
     }
 }
 
-const  mapDispatchToProps = (dispatch: Dispatch)  => bindActionCreators(
+const  mapDispatchToProps = (dispatch)  => bindActionCreators(
     {
       updateUser
     },
@@ -104,4 +86,4 @@ const  mapDispatchToProps = (dispatch: Dispatch)  => bindActionCreators(
 )
 
 
-export default connect<State, ReduxProps>(null, mapDispatchToProps)(UserForm);
+export default connect(null, mapDispatchToProps)(UserForm);
